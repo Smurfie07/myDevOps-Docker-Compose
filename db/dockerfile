@@ -1,0 +1,5 @@
+FROM MySQL:latest
+
+EXPOSE 3400
+
+CMD [ "MySQL", "schema" ]
