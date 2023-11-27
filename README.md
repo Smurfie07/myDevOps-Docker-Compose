@@ -6,7 +6,14 @@ A simple flask app which will route page to return "Hello DevOps World!"
 ![Alt text](image.png)
 
 ●	Create a Docker file for the database container which should include the necessary dependencies to run the database. You can use any database of your choice (e.g.,MySQL, PostgreSQL, MongoDB, etc.). (5 marks)
+Created the file in /db/dockerfile 
+(content of this file are as follows)
+FROM mysql:latest
+
+EXPOSE 3306
+
 ●	Create a docker-compose.yml file that defines the two services - web and database. The web service should be linked to the database service using Docker Compose networking. (5 marks)
+
 ●	Use the docker-compose up command to build and run the application. Verify that the web application is accessible from a web browser and that the database is running. (5 marks)
 ●	Modify the Docker file for the web application container to include a new feature (e.g., a new message, a new page, etc.). Rebuild the web application container and redeploy the application using docker-compose. Verify that the new feature is working as expected. (10 marks)
 ●	Implement a backup strategy for the database. This can be achieved using a Docker volume or by running a backup script periodically. (10 marks)
