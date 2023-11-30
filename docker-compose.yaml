@@ -1,9 +1,26 @@
-version: '1.0'
+version: '1.06'
 services:
   webservice-flaskapp:
     build: .
+    restart: on-failure
+    networks:
+      - frontend
     ports:
       - "80:3300"
+#      - "80-84:3300"
+#    scale: 5
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - frontend
+    ports:
+      - 9090:9090
+
   dbservice-mysql:
     build: /db/
     command: --default-authentication-plugin=mysql_native_password
@@ -13,5 +30,18 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - backend
     ports:
-      - "8080:3306"    
+      - "8080:3306"
+    volumes:
+      - db:/var/db/newbackup
+volumes:
+  db:
+    labels:
+      com.example.description: "shared db volume"
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
